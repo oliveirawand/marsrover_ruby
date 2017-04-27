@@ -1,9 +1,10 @@
-class Ingnite
+require_relative 'classes/Jarvis'
 
-	def inputLine(value)
-		value.each_line("")
+jarvis = Jarvis.new
 
+puts "Qual o nome do arquivo para importação? "
+#fileName = gets.chomp
 
-	end
-
-end
+jarvis.readInput("input" + ".txt")
+jarvis.executeCommands
+jarvis.writeOutput("input" + "_OUTPUT.txt")
