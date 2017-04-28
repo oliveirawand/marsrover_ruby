@@ -1,7 +1,7 @@
 class Plateau
 
-  attr_accessor :maxX
-  attr_accessor :maxY
+  attr_reader :maxX
+  attr_reader :maxY
 
 =begin
 separete the upper-right coordinates of the first line into X and Y

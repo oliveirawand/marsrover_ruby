@@ -3,18 +3,14 @@ require_relative 'Plateau'
 
 class Jarvis
 
-  @rovers
-  @plateau
-  @inputFileLines
-  @outputFileLines
+  attr_reader :rovers
+  attr_accessor :plateau
+  attr_accessor :inputFileLines
+  attr_reader :outputFileLines
 
-=begin
-  It's necessary for the file to be inside the "io" folder in project root folder
-  so it can be read
-=end
-  def readInput(inputFileName)
-    path = "io/" + inputFileName
-
+  public
+  def readInput(path)
+    #verify if the file exists
     if File.file?(path)
       @inputFileLines = Array.new
 
@@ -24,17 +20,16 @@ class Jarvis
         end
       end
 
-      #initializes the plateau
-      @plateau = Plateau.new(@inputFileLines[0])
-
     else
       "The mencioned input file doesn't exist!\nCome on, you're a ninja. Please, check it out."
     end
   end
 
+  public
   def executeCommands
     @rovers = Array.new
     @outputFileLines = Array.new
+    @plateau = Plateau.new(@inputFileLines[0])
 
     #last rover position inside the rovers array
     lastRoverPosition = nil
@@ -57,6 +52,16 @@ class Jarvis
         else
           lastRoverPosition += 1
         end
+
+        #verify if it's the last line of the file
+        if i == @inputFileLines.length - 1
+          finalPosition = rover.x.to_s() + " "\
+          + rover.y.to_s() + " "\
+          + rover.currentOrientation
+
+          @outputFileLines << finalPosition
+        end
+
       #otherwise, it's the instructions line
       else
         #separate the instructions inside an array eliminate the \n at the end
@@ -113,9 +118,7 @@ class Jarvis
 
  #write the output file and puts it on the screen
  public
-  def writeOutput(outputFileName)
-    path = "io/" + outputFileName
-
+  def writeOutput(path)
     outputFile = File.open(path, "w")
 
     for line in @outputFileLines
