@@ -60,6 +60,8 @@ printExample => when called, this method prints on console screen a message sayi
 
 For automated tests, I created the class TestJarvis in the root directory. This class use the Test::Unit framework for unit testing in Ruby. It tests if the inputted lines from file reading and the output after the processing are working properly.
 
+The file inputTest.txt inside io directory is used for the test, please don't delete it.
+
 #Curiosities about some lines in the code
 
 Inside the isAValidFileInput? method I use an unorthodox way to check if a string value contains a valid number. I decided to use it because when the value is setted it's read as a string, but I need it to be a number, so, if a call a method like is_a? for exemple, it won't pass through my test and, furthermore, if I try to convert the number and the variable contais an invalid value, it will crush. So i had to option: use a RegEx or did the way I did. The RegEx doesn't have a good performance and it's a little ugly to read, so i decided to do it my way. You can check the code on the line 190 of the method.
