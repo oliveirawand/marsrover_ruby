@@ -31,10 +31,10 @@ class Jarvis
       exit
     end
 
-    #validate the inputted file
+    #validate the imported file
     if !isAValidFileInput?
-      @inputFileLines = nil
       printExample()
+      exit
     end
 
   end
@@ -56,7 +56,7 @@ class Jarvis
     #from the second line to the last
     for i in (1...@inputFileLines.length)
 
-      #if a index is an odd, then it means the line contains the initial rover location
+      #if the index is an odd, then it means the line contains the initial rover location
       if i%2 == 1
         roverLocation = @inputFileLines[i].split(' ')
         rover = Rover.new
@@ -98,6 +98,7 @@ class Jarvis
 
         end
 
+        #saves the final position of the rover and adds it to the outputFileLines
         finalPosition = @rovers[lastRoverPosition].x.to_s() + " "\
         + @rovers[lastRoverPosition].y.to_s() + " "\
         + @rovers[lastRoverPosition].currentOrientation
