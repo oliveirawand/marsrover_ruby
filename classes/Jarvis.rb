@@ -19,14 +19,18 @@ class Jarvis
           @inputFileLines << line
         end
       end
-
     else
-      "The mencioned input file doesn't exist!\nCome on, you're a ninja. Please, check it out."
+      puts "The mencioned input file doesn't exist!\nCome on, you're a ninja. Please, check it out."
     end
   end
 
   public
   def executeCommands
+    if !@inputFileLines || @inputFileLines.length == 0
+      puts "No file was imported."
+      return
+    end
+
     @rovers = Array.new
     @outputFileLines = Array.new
     @plateau = Plateau.new(@inputFileLines[0])
@@ -82,7 +86,6 @@ class Jarvis
         finalPosition = @rovers[lastRoverPosition].x.to_s() + " "\
         + @rovers[lastRoverPosition].y.to_s() + " "\
         + @rovers[lastRoverPosition].currentOrientation
-
         @outputFileLines << finalPosition
 
       end
@@ -119,13 +122,29 @@ class Jarvis
  #write the output file and puts it on the screen
  public
   def writeOutput(path)
+    if !@outputFileLines || @outputFileLines.legth == 0
+      "Nothing to export."
+      return
+    end
+
     outputFile = File.open(path, "w")
 
     for line in @outputFileLines
       outputFile << line + "\n"
-      puts line + "\n"
+      #puts line + "\n"
     end
     outputFile.close
+  end
+
+  #the method run can be used to make Jarvis execute all at once
+  public
+  def run(path)
+    readInput(path)
+    if !@inputFileLines || @inputFileLines.length == 0
+      puts "No file was imported."
+    else
+      executeCommands
+      writeOutput(path[0, path.length - 5] + "_OUTPUT.txt")
   end
 
 end
