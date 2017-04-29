@@ -11,6 +11,7 @@ class TestClass < Test::Unit::TestCase
     inputFileLines = Array.new
     jarvis = Jarvis.new
 
+    #scenario
     inputFileLines << "5 5"
     inputFileLines << "1 2 N"
     inputFileLines << "LMLMLMLMM"
