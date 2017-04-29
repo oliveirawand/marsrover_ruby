@@ -11,19 +11,14 @@ class TestClass < Test::Unit::TestCase
     inputFileLines = Array.new
     jarvis = Jarvis.new
 
-    if File.file?(path)
-      #read file by Jarvis
-      jarvis.readInput(path)
+    inputFileLines << "5 5"
+    inputFileLines << "1 2 N"
+    inputFileLines << "LMLMLMLMM"
+    inputFileLines << "3 3 E"
+    inputFileLines << "MMRMMRMRRM"
 
-      #read file by test
-      File.open(path, "r:UTF-8").each do |line|
-        if line != nil
-          inputFileLines << line
-        end
-      end
-    else
-      puts "The text file (inputTest.txt) for the test doesn't exist in the io folder."
-    end
+    #read file by Jarvis
+    jarvis.readInput(path)
 
     #compare imported lines in by Jarvis and Test
     assert_equal(inputFileLines, jarvis.inputFileLines, "Inputted lines from file aren't the same!!!")
