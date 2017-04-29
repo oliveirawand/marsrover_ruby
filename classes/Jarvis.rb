@@ -23,7 +23,7 @@ class Jarvis
 
       File.open(path, "r:UTF-8").each do |line|
         if line != nil
-          @inputFileLines << line
+          @inputFileLines << line.chomp
         end
       end
     else
