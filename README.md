@@ -77,4 +77,4 @@ Inside the isAValidFileInput? method I use an unorthodox way to check if a strin
 
 First you need to put a file text inside the ioFiles directory. The file must follow the format described on the marsrover problem.
 
-After executeing the marsrover.rb file, the application will ask the name of the file that you wanto it to be processed. The file MUST be a .txt file and be inside the "io" directory. If the file is a valid one, just watch the magic happen. When finished, a file named by your input file plus "OUTPUT.txt" will be written inside "io" directory.
+After executing the marsrover.rb file, the application will ask the name of the file that you wanto it to be processed. The file MUST be a .txt file and be inside the "ioFiles" directory. If the file is a valid one, just watch the magic happen. When finished, a file named by your input file plus "OUTPUT.txt" will be written inside "ioFiles" directory.
