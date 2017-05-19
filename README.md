@@ -51,13 +51,13 @@ executeCommands => this method processes the imported input lines and interprets
 
 run => a parameter with the file path must be given. Jarvis can read, process and output the information  all at once.
 
+canMoveForward? => a rover object must be passed as a parameter. Based on the previously created Plateau and the current rover locations on it, this method says whether a rover can move forward or not.
+
 #InOut methods
 
 readInput => a parameter with the file path must be given. This method analyzes if the given input file exists and, if it's true, read the file and calls the isAValidFileInput? method to validate it.
 
 writeOutput => a parameter with the file path must be given. This method prints on the console screen and generate a file (based on the given path) with all the rovers final positions.
-
-canMoveForward? => a rover object must be passed as a parameter. Based on the previously created Plateau and the current rover locations on it, this method says whether a rover can move forward or not.
 
 isAValidFileInput? => after a file has been imported through the redInput method, this method will analyze every each line of the file and, if it find any invalid line during the process, an warning with the number of the invalid line and the cause of the error will be returned.
 
@@ -71,10 +71,10 @@ The file inputTest.txt inside io directory is used for the test, please don't de
 
 #Curiosities about some lines in the code
 
-Inside the isAValidFileInput? method I use an unorthodox way to check if a string value contains a valid number. I decided to use it because when the value is setted it's read as a string, but I need it to be a number, so, if a call a method like is_a? for exemple, it won't pass through my test and, furthermore, if I try to convert the number and the variable contais an invalid value, it will crush. So i had to option: use a RegEx or did the way I did. The RegEx doesn't have a good performance and it's a little ugly to read, so i decided to do it my way. You can check the code on the line 190 of the method.
+Inside the isAValidFileInput? method I use an unorthodox way to check if a string value contains a valid number. I decided to use it because when the value is setted it's read as a string, but I need it to be a number, so, if a call a method like is_a? for exemple, it won't pass through my test and, furthermore, if I try to convert the number and the variable contais an invalid value, it will crush. So i had two options: use a RegEx or do the way I did. The RegEx doesn't have a good performance and it's a little ugly to read, so i decided to do it my way.
 
 #Running the Application
 
-First you need to put a file text inside the io directory. The file must follow the format described on the marsrover problem.
+First you need to put a file text inside the ioFiles directory. The file must follow the format described on the marsrover problem.
 
 After executeing the marsrover.rb file, the application will ask the name of the file that you wanto it to be processed. The file MUST be a .txt file and be inside the "io" directory. If the file is a valid one, just watch the magic happen. When finished, a file named by your input file plus "OUTPUT.txt" will be written inside "io" directory.
