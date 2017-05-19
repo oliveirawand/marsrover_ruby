@@ -1,5 +1,6 @@
 require_relative 'Rover'
 require_relative 'Plateau'
+require_relative 'InOut'
 
 class Jarvis
 
@@ -7,37 +8,6 @@ class Jarvis
   attr_accessor :plateau
   attr_accessor :inputFileLines
   attr_reader :outputFileLines
-  @validRoverOrientations
-  @validRoverInstructions
-
-  def initialize
-    @validRoverOrientations = ["N", "S", "W", "E"]
-    @validRoverInstructions = ["M", "R", "L"]
-  end
-
-  public
-  def readInput(path)
-    #verify if the file exists
-    if File.file?(path)
-      @inputFileLines = Array.new
-
-      File.open(path, "r:UTF-8").each do |line|
-        if line != nil
-          @inputFileLines << line.chomp
-        end
-      end
-    else
-      puts "The mencioned input file doesn't exist!\nCome on, you're a ninja. Please, check it out."
-      exit
-    end
-
-    #validate the imported file
-    if !isAValidFileInput?
-      printExample()
-      exit
-    end
-
-  end
 
   public
   def executeCommands
@@ -108,41 +78,16 @@ class Jarvis
     end
   end
 
-  #write the output file and puts it on the screen
-  public
-  def writeOutput(path)
-     if !@outputFileLines || @outputFileLines.length == 0
-       "Nothing to export."
-       return
-     end
-
-     puts "\nFinal rovers position(s):"
-     rover = 0
-
-     outputFile = File.open(path, "w")
-     for line in @outputFileLines
-       outputFile << line + "\n"
-       puts "------Rover " + (rover += 1).to_s() + "------"
-       puts line + "\n"
-     end
-     outputFile.close
-   end
-
-   #the method run can be used to make Jarvis execute all at once
-
+  #the method run can be used to make Jarvis execute all at once
   public
   def run(path)
-     readInput(path)
-     if !@inputFileLines || @inputFileLines.length == 0
-       puts "\nNo file has been imported."
-     else
-       executeCommands
-       writeOutput(path[0, path.length - 4] + "_OUTPUT.txt")
-     end
-   end
+    io = InOut.new
+    @inputFileLines = io.readInput(path)
+    executeCommands
+    io.writeOutput(path[0, path.length - 4] + "_OUTPUT.txt", @outputFileLines)
+  end
 
-   #based on plateau area, determines if a rover can move forward or not
-
+  #based on plateau area, determines if a rover can move forward or not
   private
   def canMoveForward?(rover)
     case rover.currentOrientation
@@ -168,79 +113,6 @@ class Jarvis
     end
 
     return false
-  end
-
-  #this method has all the rules for a valid file to be inputted
-  private
-  def isAValidFileInput?
-    if @inputFileLines.length < 2
-      return false
-    end
-
-    for l in (0...@inputFileLines.length)
-      #check if is the first line
-      if l == 0
-        plateau = @inputFileLines[0].split(' ')
-
-          #check the amount of elements
-          if plateau.size != 2
-            puts "Invalid line: " + (l + 1).to_s() + " - Invalid plateau size."
-            return false
-          end
-
-          #check if all elements are numeric
-          begin
-            Integer(plateau[0])
-            Integer(plateau[1])
-          rescue
-            puts "Invalid line: " + (l + 1).to_s() + " - Plateau coordinates are not numbers."
-            return false
-          end
-
-          #check if is a rover's initial position line
-      elsif l%2 == 1
-        initialPosition = @inputFileLines[l].split(" ")
-
-        if initialPosition.length != 3
-          puts "Invalid line: " + (l + 1).to_s() + " - The line has more or less"\
-           + " than 3 elements that must be separated by blank spaces."
-          return false
-
-        elsif !@validRoverOrientations.include? initialPosition[2]
-          puts "Invalid line: " + (l + 1).to_s() + " - The rovers orientation is invalid."
-          return false
-
-        else
-          begin
-            Integer(initialPosition[0])
-            Integer(initialPosition[1])
-          rescue
-            puts "Invalid line: " + (l + 1).to_s() + " - The first two elements of the line are not valid numbers!"
-            return false
-          end
-        end
-
-      else
-        instructions = @inputFileLines[l].chomp.split(//)
-        for i in instructions
-          if !@validRoverInstructions.include? i.upcase()
-            puts "Invalid line: " + (l + 1).to_s() + " - There must be only valid letters for rover instructions."
-            return false
-          end
-        end
-      end
-    end
-    return true;
-  end
-
-  private
-  def printExample
-    puts "\nInvalid file! Please, use an input with at least two lines following the example below:"
-    puts "\n5 5"
-    puts "1 2 N"
-    puts "MMMLRMRLMRL"
-    puts "3 5 S"
-    puts "LRRRMRLMRLMMM"
   end
 
 end

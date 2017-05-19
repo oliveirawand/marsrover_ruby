@@ -1,15 +1,15 @@
 require_relative 'classes/Jarvis'
 require_relative 'classes/Plateau'
+require_relative 'classes/InOut'
 require 'test/unit'
 
 class TestClass < Test::Unit::TestCase
 
   def test_readInput
-    puts "Test about the import of lines from file to be processed."
-
-    path = "io/inputTest.txt"
+    path = "ioFiles/inputTest.txt"
     inputFileLines = Array.new
     jarvis = Jarvis.new
+    io = InOut.new
 
     #scenario
     inputFileLines << "5 5"
@@ -18,15 +18,14 @@ class TestClass < Test::Unit::TestCase
     inputFileLines << "3 3 E"
     inputFileLines << "MMRMMRMRRM"
 
-    #read file by Jarvis
-    jarvis.readInput(path)
+    #read file by InOut to Jarvis
+    jarvis.inputFileLines = io.readInput(path)
 
-    #compare imported lines in by Jarvis and Test
+    #compare imported lines by io and Test
     assert_equal(inputFileLines, jarvis.inputFileLines, "Inputted lines from file aren't the same!!!")
   end
 
-  def test_executeCommands
-    #scenario
+  def test_executeCommands#scenario
     inputFileLines = ["7 9", "0 0 E", "MMMMMMMMMMMMMMMMMMMMMMMMM", "0 0 N", "MMMMMMMMMMMMMMMMMMMM", "2 5 S"]
     outputFileLines = Array.new
     rovers = Array.new
@@ -52,7 +51,7 @@ class TestClass < Test::Unit::TestCase
           lastRoverPosition += 1
         end
 
-        #verify if it's the last line of the file
+        #checks if it's the last line of the file
         if i == inputFileLines.length - 1
           finalPosition = rover.x.to_s() + " "\
           + rover.y.to_s() + " "\
